@@ -22,8 +22,12 @@ channel_usernames = os.environ.get('CHANNEL_USERNAMES').split(',')
 your_channel_username = os.environ.get('YOUR_CHANNEL_USERNAME')
 phone_number = os.environ.get('PHONE')
 
-client = TelegramClient('autoforwardbotnolan', api_id, api_hash)
-client.connect()
+with TelegramClient('session_name', api_id, api_hash) as client:
+    client.connect()
+    print("Kết nối thành công!")
+
+# Ghi lại lệnh xuất bên ngoài khối "with" để đảm bảo ngắt kết nối khi hoàn tất
+print("Kết nối đã đóng.")
 if not client.is_user_authorized():
     client.send_code_request(phone_number)
     me = client.sign_in(phone_number, input('Enter code: '))
