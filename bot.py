@@ -14,6 +14,7 @@ Created on Fri Nov  3 16:22:14 2023
 
 import os
 from telethon.sync import events,TelegramClient
+from telethon import errors
 
 # from telethon import TelegramClient
 
@@ -23,17 +24,19 @@ api_hash = '33c9a5d269bc49c2dd7fbceda38b3a4f'
 channel_usernames = CHANNEL_USERNAMES.split(',')
 your_channel_username = '1940588455'
 phone_number = '84973399573'
+bot_api ='6386799203:AAF0FmGumSN40PsQfqEJ2rsHKk0dyAjQ4Oo'
 
-client = TelegramClient(None, api_id, api_hash)
-client.session.set_dc(2, '149.154.167.40', 80)
-client.start(
-    phone_number, code_callback=lambda: '22222'
-)
-#client = TelegramClient(None, api_id, api_hash)
-#client.connect()
 
-# Ghi lại lệnh xuất bên ngoài khối "with" để đảm bảo ngắt kết nối khi hoàn tất
-print("Kết nối")
+try:
+    print('Starting connect')
+    async with TelegramClient(None, api_id, api_hash) as client:
+        print('Async  connect')
+        client.connect()
+except OSError:
+    print('Failed to connect')
+
+
+
 if not client.is_user_authorized():
     print("Kết nối fail.")
     # client.send_code_request(phone_number)
@@ -69,5 +72,16 @@ async def handle_stop_command(event):
         bot_active = False
         await event.respond('Bot stopped.')
 
-client.start()
+
+
+try:
+    client.start(bot_api)
+except OSError:
+    print('Failed bot_api to connect')
+
+try:
+    client.start()
+except OSError:
+    print('Failed start to connect')
+
 client.run_until_disconnected()
