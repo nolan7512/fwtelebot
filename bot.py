@@ -13,25 +13,27 @@ Created on Fri Nov  3 16:22:14 2023
 """
 
 import os
-from telethon.sync import events
-from telethon import TelegramClient
+from telethon.sync import events,TelegramClient
 
-api_id = os.environ.get('API_ID')
-api_hash = os.environ.get('API_HASH')
-channel_usernames = os.environ.get('CHANNEL_USERNAMES').split(',')
-your_channel_username = os.environ.get('YOUR_CHANNEL_USERNAME')
-phone_number = os.environ.get('PHONE')
+# from telethon import TelegramClient
 
-with TelegramClient('session_name', api_id, api_hash) as client:
-    client.connect()
-    print("Kết nối thành công!")
+CHANNEL_USERNAMES = '1848177285,1923885339'
+api_id = '26403417'
+api_hash = '33c9a5d269bc49c2dd7fbceda38b3a4f'
+channel_usernames = CHANNEL_USERNAMES.split(',')
+your_channel_username = '1940588455'
+phone_number = '+84973399573'
+
+client = TelegramClient(None, api_id, api_hash)
+client.connect()
 
 # Ghi lại lệnh xuất bên ngoài khối "with" để đảm bảo ngắt kết nối khi hoàn tất
-print("Kết nối đã đóng.")
+print("Kết nối")
 if not client.is_user_authorized():
-    client.send_code_request(phone_number)
-    me = client.sign_in(phone_number, input('Enter code: '))
-bot_active = False  # Biến để kiểm tra trạng thái hoạt động của bot
+    print("Kết nối fail.")
+    # client.send_code_request(phone_number)
+    # me = client.sign_in(phone_number, input('Enter code: '))
+bot_active = True  # Biến để kiểm tra trạng thái hoạt động của bot
 
 @client.on(events.NewMessage(chats=channel_usernames))
 async def forward_message(event):
