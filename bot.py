@@ -1,19 +1,32 @@
 # -*- coding: utf-8 -*-
 """
+Created on Sat Nov  4 08:36:26 2023
+
+@author: TuanKiet-Nguyen
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Fri Nov  3 16:22:14 2023
 
 @author: TuanKiet-Nguyen
 """
 
 import os
-from telethon.sync import TelegramClient, events
+from telethon.sync import events
+from telethon import TelegramClient
 
 api_id = os.environ.get('API_ID')
 api_hash = os.environ.get('API_HASH')
 channel_usernames = os.environ.get('CHANNEL_USERNAMES').split(',')
 your_channel_username = os.environ.get('YOUR_CHANNEL_USERNAME')
+phone_number = os.environ.get('PHONE')
 
-client = TelegramClient('session_name', api_id, api_hash)
+client = TelegramClient('autoforwardbotnolan', api_id, api_hash)
+client.connect()
+if not client.is_user_authorized():
+    client.send_code_request(phone_number)
+    me = client.sign_in(phone_number, input('Enter code: '))
 bot_active = False  # Biến để kiểm tra trạng thái hoạt động của bot
 
 @client.on(events.NewMessage(chats=channel_usernames))
