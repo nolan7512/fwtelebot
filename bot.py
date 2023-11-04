@@ -18,14 +18,19 @@ from telethon.sync import events,TelegramClient
 # from telethon import TelegramClient
 
 CHANNEL_USERNAMES = '1848177285,1923885339'
-api_id = '26403417'
+api_id = 26403417
 api_hash = '33c9a5d269bc49c2dd7fbceda38b3a4f'
 channel_usernames = CHANNEL_USERNAMES.split(',')
 your_channel_username = '1940588455'
 phone_number = '+84973399573'
 
 client = TelegramClient(None, api_id, api_hash)
-client.connect()
+client.session.set_dc(2, '149.154.167.40', 80)
+client.start(
+    phone_number, code_callback=lambda: '22222'
+)
+#client = TelegramClient(None, api_id, api_hash)
+#client.connect()
 
 # Ghi lại lệnh xuất bên ngoài khối "with" để đảm bảo ngắt kết nối khi hoàn tất
 print("Kết nối")
