@@ -22,7 +22,7 @@ api_id = 26403417
 api_hash = '33c9a5d269bc49c2dd7fbceda38b3a4f'
 channel_usernames = CHANNEL_USERNAMES.split(',')
 your_channel_username = '1940588455'
-phone_number = '+84973399573'
+phone_number = '84973399573'
 
 client = TelegramClient(None, api_id, api_hash)
 client.session.set_dc(2, '149.154.167.40', 80)
