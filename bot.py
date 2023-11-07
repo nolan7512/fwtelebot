@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Tue Nov  7 13:43:46 2023
+
+@author: TuanKiet-Nguyen
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Sat Nov  4 08:36:26 2023
 
 @author: TuanKiet-Nguyen
@@ -13,8 +20,8 @@ Created on Fri Nov  3 16:22:14 2023
 """
 
 import os
-from telethon.sync import events,TelegramClient
-from telethon import errors
+from telethon import events,errors,TelegramClient
+
 
 # from telethon import TelegramClient
 
@@ -24,14 +31,17 @@ api_hash = '33c9a5d269bc49c2dd7fbceda38b3a4f'
 channel_usernames = CHANNEL_USERNAMES.split(',')
 your_channel_username = '1940588455'
 phone_number = '84973399573'
-bot_api ='6386799203:AAF0FmGumSN40PsQfqEJ2rsHKk0dyAjQ4Oo'
+bot_token  ='6386799203:AAF0FmGumSN40PsQfqEJ2rsHKk0dyAjQ4Oo'
+
+
+
 
 
 try:
     print('Starting connect')
-    client = TelegramClient(None, api_id, api_hash)
-    print('Async  connect')
-    client.connect()
+    async with TelegramClient(None, api_id, api_hash) as client:
+        print('Async  connect')
+        client.connect()
 except OSError:
     print('Failed to connect')
 
@@ -75,7 +85,7 @@ async def handle_stop_command(event):
 
 
 try:
-    client.start(bot_api)
+    client.start(bot_token=bot_token)
 except OSError:
     print('Failed bot_api to connect')
 
