@@ -20,17 +20,16 @@ Created on Fri Nov  3 16:22:14 2023
 """
 
 import os
-from telethon import events,errors,TelegramClient
+from telethon.sync import events,errors,TelegramClient
 
 
 # from telethon import TelegramClient
-
-CHANNEL_USERNAMES = '1848177285,1923885339'
+CHANNEL_USERNAMES = '@hamsuperpips,@hamsupergold,@signalforopentradebot'
 api_id = 26403417
 api_hash = '33c9a5d269bc49c2dd7fbceda38b3a4f'
 channel_usernames = CHANNEL_USERNAMES.split(',')
-your_channel_username = '1940588455'
-phone_number = '84973399573'
+your_channel_username = '@signalforopentradebot'
+phone_number = 84973399573
 bot_token  ='6386799203:AAF0FmGumSN40PsQfqEJ2rsHKk0dyAjQ4Oo'
 
 
@@ -39,9 +38,9 @@ bot_token  ='6386799203:AAF0FmGumSN40PsQfqEJ2rsHKk0dyAjQ4Oo'
 
 try:
     print('Starting connect')
-    with TelegramClient('season_name', api_id, api_hash) as client:
-        print('Async  connect')
-        #client.connect()
+    client = TelegramClient('bot_session', api_id, api_hash)
+    client.start(bot_token=bot_token)
+    #client.connect()
 except OSError:
     print('Failed to connect')
 
@@ -84,14 +83,14 @@ async def handle_stop_command(event):
 
 
 
-try:
-    client.start(bot_token=bot_token)
-except OSError:
-    print('Failed bot_api to connect')
+# try:
+#     client.start(bot_token=bot_token)
+# except OSError:
+#     print('Failed bot_api to connect')
 
-try:
-    client.start()
-except OSError:
-    print('Failed start to connect')
+# try:
+#     client.start()
+# except OSError:
+#     print('Failed start to connect')
 
 client.run_until_disconnected()
