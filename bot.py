@@ -39,9 +39,9 @@ bot_token  ='6386799203:AAF0FmGumSN40PsQfqEJ2rsHKk0dyAjQ4Oo'
 
 try:
     print('Starting connect')
-    async with TelegramClient(None, api_id, api_hash) as client:
+    with TelegramClient(None, api_id, api_hash) as client:
         print('Async  connect')
-        client.connect()
+        #client.connect()
 except OSError:
     print('Failed to connect')
 
