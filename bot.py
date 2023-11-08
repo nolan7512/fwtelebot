@@ -72,13 +72,9 @@ async def handle_help_command(event):
     help_message += "/filteron: Bật chế độ lọc từ trong tin nhắn.\n"
     help_message += "/filteroff: Tắt chế độ lọc từ trong tin nhắn.\n"
     help_message += "/statusfw: Hiển thị trạng thái của bot và chế độ lọc từ.\n"
-    help_message += "/addchannel tenchannel:\n"
-    help_message += "     Để thêm một kênh, sử dụng lệnh sau:\n      /addchannel ten_kenh có @ trước tên\n"
-    help_message += "     Ví dụ: /addchannel @mdex\n"
-    help_message += "/deletechannel tenchannel: \n"
-    help_message += "     Để thêm một kênh, sử dụng lệnh sau:\n      /deletechannel ten_kenh có @ trước tên\n"
-    help_message += "     Ví dụ: /addchannel @mdex\n"
-    help_message += "/listchannels: Liệt kê danh sách các kênh hiện tại.\n"
+    help_message += "/addchannel tenchannel: Để thêm một channel lắng nghe\n"
+    help_message += "/deletechannel tenchannel:Để xóa channel lắng nghe đó\n"
+    help_message += "/listchannel: Liệt kê danh sách các kênh hiện tại.\n"
     await event.respond(help_message)
 
 @client.on(events.NewMessage(pattern=r'^/filteron$'))
@@ -101,23 +97,23 @@ async def handle_status_command(event):
 
 @client.on(events.NewMessage(pattern=r'^/addchannel'))
 async def handle_add_channel_command(event):
-    channel_name = event.raw_text.split('@')[1]
+    channel_name = event.raw_text.split('/addchannel ')[1]
     if channel_name and channel_name not in channel_usernames:
         channel_usernames.append(channel_name)
         os.environ['CHANNEL_USERNAMES'] = ','.join(channel_usernames)
-        await event.respond(f"@{channel_name} đã được thêm vào danh sách kênh.")
+        await event.respond(f"{channel_name} đã được thêm vào danh sách kênh.")
     else:
-        await event.respond(f"@{channel_name} đã có trong danh sách kênh hoặc tên kênh không hợp lệ.")
+        await event.respond(f"{channel_name} đã có trong danh sách kênh hoặc tên kênh không hợp lệ.")
 
 @client.on(events.NewMessage(pattern=r'^/deletechannel'))
 async def handle_delete_channel_command(event):
-    channel_name = event.raw_text.split('@')[1]
+    channel_name = event.raw_text.split('/deletechannel ')[1]
     if channel_name in channel_usernames:
         channel_usernames.remove(channel_name)
         os.environ['CHANNEL_USERNAMES'] = ','.join(channel_usernames)
-        await event.respond(f"@{channel_name} đã bị xóa khỏi danh sách kênh.")
+        await event.respond(f"{channel_name} đã bị xóa khỏi danh sách kênh.")
     else:
-        await event.respond(f"@{channel_name} không có trong danh sách kênh.")
+        await event.respond(f"{channel_name} không có trong danh sách kênh.")
 
 @client.on(events.NewMessage(pattern=r'^/listchannel'))
 async def handle_list_channel_command(event):
