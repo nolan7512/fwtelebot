@@ -72,8 +72,6 @@ async def handle_help_command(event):
     help_message += "/filteron: Bật chế độ lọc từ trong tin nhắn.\n"
     help_message += "/filteroff: Tắt chế độ lọc từ trong tin nhắn.\n"
     help_message += "/statusfw: Hiển thị trạng thái của bot và chế độ lọc từ.\n"
-    help_message += "/addchannel tenchannel: Để thêm một channel lắng nghe\n"
-    help_message += "/deletechannel tenchannel:Để xóa channel lắng nghe đó\n"
     help_message += "/listchannel: Liệt kê danh sách các kênh hiện tại.\n"
     await event.respond(help_message)
 
@@ -95,29 +93,6 @@ async def handle_filteroff_command(event):
 async def handle_status_command(event):
     await event.respond(status_message)
 
-@client.on(events.NewMessage(pattern=r'^/addchannel'))
-async def handle_add_channel_command(event):
-    channel_name = event.raw_text.split('/addchannel ')[1].lower()
-    if channel_name and channel_name not in channel_usernames:
-        if not channel_name.startswith('@'):
-            channel_name = '@' + channel_name
-        channel_usernames.append(channel_name)
-        os.environ['CHANNEL_USERNAMES'] = ','.join(channel_usernames)
-        await event.respond(f"{channel_name} đã được thêm vào danh sách kênh.")
-    else:
-        await event.respond(f"{channel_name} đã có trong danh sách kênh hoặc tên kênh không hợp lệ.")
-
-@client.on(events.NewMessage(pattern=r'^/deletechannel'))
-async def handle_delete_channel_command(event):
-    channel_name = event.raw_text.split('/deletechannel ')[1].lower()
-    if not channel_name.startswith('@'):
-        channel_name = '@' + channel_name
-    if channel_name in channel_usernames:
-        channel_usernames.remove(channel_name)
-        os.environ['CHANNEL_USERNAMES'] = ','.join(channel_usernames)
-        await event.respond(f"{channel_name} đã bị xóa khỏi danh sách kênh.")
-    else:
-        await event.respond(f"{channel_name} không có trong danh sách kênh.")
 
 @client.on(events.NewMessage(pattern=r'^/listchannel'))
 async def handle_list_channel_command(event):
