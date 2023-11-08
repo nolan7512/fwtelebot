@@ -24,17 +24,15 @@ session_paths ='./bot_session_online.session'
  # Danh sách các từ cần lọc
 filter_words = ['AUDCAD', 'AUDCHF', 'AUDJPY', 'AUDNZD', 'AUDUSD', 'CADCHF', 'CADJPY', 'CHFJPY', 'EURAUD', 'EURCAD', 'EURCHF', 'EURGBP', 'EURJPY', 'EURNZD', 'EURUSD', 'GBPAUD', 'GBPCAD', 'GBPCHF', 'GBPJPY', 'GBPNZD', 'GBPUSD', 'NZDCAD', 'NZDCHF', 'NZDJPY', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY', 'XAGUSD', 'XAUUSD','GOLD','AUD/CAD', 'AUD/CHF', 'AUD/JPY', 'AUD/NZD', 'AUD/USD', 'CAD/CHF', 'CAD/JPY', 'CHF/JPY', 'EUR/AUD', 'EUR/CAD', 'EUR/CHF', 'EUR/GBP', 'EUR/JPY', 'EUR/NZD', 'EUR/USD', 'GBP/AUD', 'GBP/CAD', 'GBP/CHF', 'GBP/JPY', 'GBP/NZD', 'GBP/USD', 'NZD/CAD', 'NZD/CHF', 'NZD/JPY', 'NZD/USD', 'USD/CAD', 'USD/CHF', 'USD/JPY', 'XAG/USD', 'XAU/USD']
 filter_mode = False  # Trạng thái chế độ lọc
-bot_active = False  # Biến để kiểm tra trạng thái hoạt động của bot
-status_message = "Bot Ready To Start, Bot already STOP | Filter mode: OFF"
+bot_active = True  # Biến để kiểm tra trạng thái hoạt động của bot
+status_message = "Bot Started, Filter mode: OFF"
 
 
 try:
     print('Starting connect')
     client = TelegramClient(session_paths, api_id, api_hash)
-    time.sleep(2)
     client.start(phone=phone_number, password=pass_code)
-    client.send_message(your_channel_username, status_message)
-    time.sleep(1)
+    client.send_message(your_channel_username, "Bot đã chạy thành công!")
     #client.start(bot_token=bot_token)
     #client.connect()
 except OSError:
@@ -42,10 +40,13 @@ except OSError:
 
 @client.on(events.NewMessage(chats=channel_usernames))
 async def forward_message(event):
-    if bot_active:
-        message_text = event.message.text.lower()  # Chuyển nội dung tin nhắn thành chữ thường
-        if not filter_mode or any(word.lower() in message_text for word in filter_words):
-            await client.send_message(your_channel_username, event.message.text)
+    try:
+        if bot_active:
+            message_text = event.message.text.lower()  # Chuyển nội dung tin nhắn thành chữ thường
+            if not filter_mode or any(word.lower() in message_text for word in filter_words):
+                await client.send_message(your_channel_username, event.message.text)
+    except Exception as e:
+        print(f"Error in forward_message: {e}")
 
 @client.on(events.NewMessage(pattern=r'^/startfw$'))
 async def handle_start_command(event):
