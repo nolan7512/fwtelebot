@@ -14,7 +14,7 @@ from telethon.sync import events,errors,TelegramClient
 # from telethon import TelegramClient
 api_id = int(os.environ.get("API_ID", 0))
 api_hash = os.environ.get('API_HASH')
-channel_usernames = os.environ.get('CHANNEL_USERNAMES').split(',')
+channel_usernames = os.environ.get('CHANNEL_USERNAMES','').split(',')
 your_channel_username = os.environ.get('YOUR_CHANNEL_USERNAME')
 phone_number = int(os.environ.get("PHONE_NUMBER", 0))
 pass_code = int(os.environ.get("PASS_CODE", 0))
@@ -41,9 +41,9 @@ except OSError:
 @client.on(events.NewMessage(chats=channel_usernames))
 async def forward_message(event):
     if bot_active:
-        message_text = event.message.text
-        if not filter_mode or any(word in message_text for word in filter_words):
-            await client.send_message(your_channel_username, message_text)
+        message_text = event.message.text.lower()  # Chuyển nội dung tin nhắn thành chữ thường
+        if not filter_mode or any(word.lower() in message_text for word in filter_words):
+            await client.send_message(your_channel_username, event.message.text)
 
 @client.on(events.NewMessage(pattern=r'^/startfw$'))
 async def handle_start_command(event):
