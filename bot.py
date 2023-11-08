@@ -27,7 +27,7 @@ status_message = "Bot Started, Filter mode: ON"
 async def main():
     try:
         print('Starting connect')
-        await client = TelegramClient(session_paths, api_id, api_hash)
+        client = TelegramClient(session_paths, api_id, api_hash)
         await client.start(phone=phone_number, password=pass_code)
         await client.send_message(your_channel_username, status_message)
     except OSError:
