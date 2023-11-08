@@ -25,7 +25,7 @@ session_paths ='./bot_session_online.session'
 filter_words = ['AUDCAD', 'AUDCHF', 'AUDJPY', 'AUDNZD', 'AUDUSD', 'CADCHF', 'CADJPY', 'CHFJPY', 'EURAUD', 'EURCAD', 'EURCHF', 'EURGBP', 'EURJPY', 'EURNZD', 'EURUSD', 'GBPAUD', 'GBPCAD', 'GBPCHF', 'GBPJPY', 'GBPNZD', 'GBPUSD', 'NZDCAD', 'NZDCHF', 'NZDJPY', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY', 'XAGUSD', 'XAUUSD','GOLD','AUD/CAD', 'AUD/CHF', 'AUD/JPY', 'AUD/NZD', 'AUD/USD', 'CAD/CHF', 'CAD/JPY', 'CHF/JPY', 'EUR/AUD', 'EUR/CAD', 'EUR/CHF', 'EUR/GBP', 'EUR/JPY', 'EUR/NZD', 'EUR/USD', 'GBP/AUD', 'GBP/CAD', 'GBP/CHF', 'GBP/JPY', 'GBP/NZD', 'GBP/USD', 'NZD/CAD', 'NZD/CHF', 'NZD/JPY', 'NZD/USD', 'USD/CAD', 'USD/CHF', 'USD/JPY', 'XAG/USD', 'XAU/USD']
 filter_mode = False  # Trạng thái chế độ lọc
 bot_active = True  # Biến để kiểm tra trạng thái hoạt động của bot
-status_message = "Bot stopped, Filter mode: OFF"
+status_message = "Bot Started, Filter mode: OFF"
 
 
 try:
@@ -53,6 +53,9 @@ async def handle_start_command(event):
         filter_status = "ON" if filter_mode else "OFF"
         status_message = f"Bot started, Filter mode: {filter_status}"
         await event.respond(status_message)
+    else:
+        stratingtrue = "Bot already running"
+        await event.respond(stratingtrue)
 
 @client.on(events.NewMessage(pattern=r'^/stopfw$'))
 async def handle_stop_command(event):
@@ -62,6 +65,10 @@ async def handle_stop_command(event):
         filter_status = "ON" if filter_mode else "OFF"
         status_message = f"Bot stopped, Filter mode: {filter_status}"
         await event.respond(status_message)
+    else:
+        stratingtrue = "Bot already Stop"
+        await event.respond(stratingtrue)
+   
 
 @client.on(events.NewMessage(pattern=r'^/helpfw$'))
 async def handle_help_command(event):    
