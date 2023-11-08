@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov  7 13:43:46 2023
+Created on Tue Nov 7 13:43:46 2023
 
 @author: TuanKiet-Nguyen
 """
 
 import os
 import asyncio
-from telethon import TelegramClient, events
+from telethon.sync import TelegramClient, events
 
 api_id = int(os.environ.get("API_ID", 0))
 api_hash = os.environ.get('API_HASH')
@@ -25,6 +25,8 @@ bot_active = True  # Biến để kiểm tra trạng thái hoạt động của 
 status_message = "Bot Started, Filter mode: ON"
 
 async def main():
+    global bot_active  # Sử dụng global để truy cập biến bot_active
+
     try:
         print('Starting connect')
         client = TelegramClient(session_paths, api_id, api_hash)
@@ -45,7 +47,7 @@ async def main():
 
     @client.on(events.NewMessage(pattern=r'^/startfw$'))
     async def handle_start_command(event):
-        nonlocal bot_active, status_message
+        global bot_active, status_message
         if not bot_active:
             bot_active = True
             filter_status = "ON" if filter_mode else "OFF"
@@ -56,7 +58,7 @@ async def main():
 
     @client.on(events.NewMessage(pattern=r'^/stopfw$'))
     async def handle_stop_command(event):
-        nonlocal bot_active, status_message
+        global bot_active, status_message
         if bot_active:
             bot_active = False
             filter_status = "ON" if filter_mode else "OFF"
@@ -79,13 +81,13 @@ async def main():
 
     @client.on(events.NewMessage(pattern=r'^/filteron$'))
     async def handle_filteron_command(event):
-        nonlocal filter_mode, status_message
+        global filter_mode, status_message
         filter_mode = True
         await event.respond(status_message)
 
     @client.on(events.NewMessage(pattern=r'^/filteroff$'))
     async def handle_filteroff_command(event):
-        nonlocal filter_mode, status_message
+        global filter_mode, status_message
         filter_mode = False
         await event.respond(status_message)
 
