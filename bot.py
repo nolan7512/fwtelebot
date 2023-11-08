@@ -97,8 +97,10 @@ async def handle_status_command(event):
 
 @client.on(events.NewMessage(pattern=r'^/addchannel'))
 async def handle_add_channel_command(event):
-    channel_name = event.raw_text.split('/addchannel ')[1]
+    channel_name = event.raw_text.split('/addchannel ')[1].lower()
     if channel_name and channel_name not in channel_usernames:
+        if not channel_name.startswith('@'):
+            channel_name = '@' + channel_name
         channel_usernames.append(channel_name)
         os.environ['CHANNEL_USERNAMES'] = ','.join(channel_usernames)
         await event.respond(f"{channel_name} đã được thêm vào danh sách kênh.")
@@ -107,7 +109,9 @@ async def handle_add_channel_command(event):
 
 @client.on(events.NewMessage(pattern=r'^/deletechannel'))
 async def handle_delete_channel_command(event):
-    channel_name = event.raw_text.split('/deletechannel ')[1]
+    channel_name = event.raw_text.split('/deletechannel ')[1].lower()
+    if not channel_name.startswith('@'):
+        channel_name = '@' + channel_name
     if channel_name in channel_usernames:
         channel_usernames.remove(channel_name)
         os.environ['CHANNEL_USERNAMES'] = ','.join(channel_usernames)
