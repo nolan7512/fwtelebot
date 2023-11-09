@@ -14,7 +14,7 @@ api_hash = os.environ.get('API_HASH')
 channel_usernames = os.environ.get('CHANNEL_USERNAMES', '').split(',')
 your_channel_username = os.environ.get('YOUR_CHANNEL_USERNAME')
 phone_number = int(os.environ.get("PHONE_NUMBER", 0))
-pass_code = int(os.environ.get("PASS_CODE", 0))
+pass_code = os.environ.get("PASS_CODE")  # Sử dụng chuỗi thay vì int
 bot_token = os.environ.get('BOT_TOKEN')
 session_paths = './bot_session_online.session'
 
