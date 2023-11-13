@@ -9,6 +9,7 @@ Created on Tue Nov  7 13:43:46 2023
 
 import os
 from telethon.sync import events,errors,TelegramClient
+from telethon.sessions import StringSession
 
 
 # from telethon import TelegramClient
