@@ -30,8 +30,7 @@ status_message = "Bot Started, Filter mode: ON"
 
 try:
     print('Starting connect')
-    client = TelegramClient(session_paths, api_id, api_hash)
-    client.connect()
+    client = TelegramClient(session_paths, api_id, api_hash).start()
     #client.start(phone=phone_number, password=pass_code)
     client.send_message(your_channel_username, "Bot đã chạy thành công!")
 except OSError:
