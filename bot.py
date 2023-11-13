@@ -34,9 +34,7 @@ try:
     print('Starting connect')
     client = TelegramClient(StringSession(session_paths), api_id, api_hash)
     client.start(phone=phone_number, password=pass_code)
-    string = StringSession.save(client.session)
     client.send_message(your_channel_username, "Bot đã chạy thành công!")
-    client.send_message(your_channel_username, string)
     #client.start(bot_token=bot_token)
     #client.connect()
 except OSError:
