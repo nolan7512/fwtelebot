@@ -21,8 +21,8 @@ phone_number = int(os.environ.get("PHONE_NUMBER", 0))
 pass_code = int(os.environ.get("PASS_CODE", 0))
 bot_token = os.environ.get('BOT_TOKEN')
 #session_path = '/etc/secrets/bot_session_online.session'
-#session_path = os.environ.get('SESSION')
-session_paths ='./bot_session_online.session'
+session_paths = os.environ.get('SESSION')
+#session_paths ='./bot_session_online.session'
  # Danh sách các từ cần lọc
 filter_words = ['AUDCAD', 'AUDCHF', 'AUDJPY', 'AUDNZD', 'AUDUSD', 'CADCHF', 'CADJPY', 'CHFJPY', 'EURAUD', 'EURCAD', 'EURCHF', 'EURGBP', 'EURJPY', 'EURNZD', 'EURUSD', 'GBPAUD', 'GBPCAD', 'GBPCHF', 'GBPJPY', 'GBPNZD', 'GBPUSD', 'NZDCAD', 'NZDCHF', 'NZDJPY', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY', 'XAGUSD', 'XAUUSD','GOLD','AUD/CAD', 'AUD/CHF', 'AUD/JPY', 'AUD/NZD', 'AUD/USD', 'CAD/CHF', 'CAD/JPY', 'CHF/JPY', 'EUR/AUD', 'EUR/CAD', 'EUR/CHF', 'EUR/GBP', 'EUR/JPY', 'EUR/NZD', 'EUR/USD', 'GBP/AUD', 'GBP/CAD', 'GBP/CHF', 'GBP/JPY', 'GBP/NZD', 'GBP/USD', 'NZD/CAD', 'NZD/CHF', 'NZD/JPY', 'NZD/USD', 'USD/CAD', 'USD/CHF', 'USD/JPY', 'XAG/USD', 'XAU/USD']
 filter_mode = True  # Trạng thái chế độ lọc
@@ -32,7 +32,7 @@ status_message = "Bot Started, Filter mode: ON"
 
 try:
     print('Starting connect')
-    client = TelegramClient(session_paths, api_id, api_hash)
+    client = TelegramClient(StringSession(session_paths), api_id, api_hash)
     client.start(phone=phone_number, password=pass_code)
     string = StringSession.save(client.session)
     client.send_message(your_channel_username, "Bot đã chạy thành công!")
